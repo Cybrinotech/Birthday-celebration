@@ -1,0 +1,2883 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>A Special Birthday Wish 🎂</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html{
+    width:100%;
+    height:100%;
+    scroll-behavior:smooth;
+}
+
+body{
+    width:100%;
+    height:100%;
+    overflow:hidden;
+
+    font-family:
+        "Trebuchet MS",
+        Arial,
+        sans-serif;
+
+    background:#f9ddd7;
+    color:#17336f;
+}
+
+/* =========================
+   MAIN BOOK
+========================= */
+
+.book{
+    position:relative;
+    width:100%;
+    height:100dvh;
+    overflow:hidden;
+}
+
+/* =========================
+   PAGE
+========================= */
+
+.page{
+    position:absolute;
+    inset:0;
+
+    width:100%;
+    height:100dvh;
+
+    padding:12px;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    opacity:0;
+    visibility:hidden;
+
+    transform:translateX(100%);
+
+    transition:
+        transform .65s cubic-bezier(.77,0,.18,1),
+        opacity .45s ease;
+
+    overflow:hidden;
+
+    touch-action:pan-y;
+}
+
+.page.active{
+    opacity:1;
+    visibility:visible;
+    transform:translateX(0);
+}
+
+.page.prev{
+    transform:translateX(-100%);
+}
+
+/* =========================
+   BACKGROUND
+========================= */
+
+.page-bg{
+    position:absolute;
+    inset:0;
+
+    background:
+        radial-gradient(
+            circle at 50% 30%,
+            rgba(255,255,255,.9),
+            rgba(249,221,215,.8) 60%,
+            #f9ddd7 100%
+        );
+
+    z-index:-10;
+}
+
+/* =========================
+   BUNTING
+========================= */
+
+.bunting{
+    position:absolute;
+    top:-4px;
+    left:-5%;
+
+    width:110%;
+    height:65px;
+
+    display:flex;
+    justify-content:center;
+
+    z-index:5;
+}
+
+.bunting:before{
+    content:"";
+
+    position:absolute;
+    top:0;
+    left:0;
+
+    width:100%;
+    height:45px;
+
+    border-top:2px solid rgba(255,255,255,.85);
+
+    border-radius:50%;
+}
+
+.flag{
+    width:32px;
+    height:43px;
+
+    margin:0 2px;
+
+    clip-path:polygon(
+        0 0,
+        100% 0,
+        85% 100%,
+        50% 72%,
+        15% 100%
+    );
+}
+
+.flag:nth-child(odd){
+    background:#ef8175;
+}
+
+.flag:nth-child(even){
+    background:#7acbd6;
+}
+
+/* =========================
+   CARD
+========================= */
+
+.card{
+    position:relative;
+
+    width:min(850px,94vw);
+    height:min(700px,84dvh);
+
+    padding:70px 40px 80px;
+
+    background:#fff;
+
+    box-shadow:
+        0 18px 50px rgba(100,70,80,.13);
+
+    display:flex;
+    flex-direction:column;
+
+    justify-content:center;
+    align-items:center;
+
+    text-align:center;
+
+    overflow:hidden;
+}
+
+/* =========================
+   RIBBONS
+========================= */
+
+.card-ribbon{
+    position:absolute;
+
+    width:290px;
+    height:42px;
+
+    background:#7acbd5;
+
+    opacity:.9;
+}
+
+.card-ribbon.one{
+    top:12px;
+    left:-90px;
+
+    transform:rotate(-38deg);
+
+    border-radius:30px;
+}
+
+.card-ribbon.two{
+    top:12px;
+    right:-90px;
+
+    transform:rotate(38deg);
+
+    border-radius:30px;
+}
+
+/* =========================
+   TYPOGRAPHY
+========================= */
+
+.small-title{
+    font-size:11px;
+
+    letter-spacing:3px;
+
+    color:#7385a5;
+
+    margin-bottom:15px;
+
+    text-transform:uppercase;
+}
+
+.title{
+    font-size:clamp(40px,8vw,85px);
+
+    line-height:.95;
+
+    color:#142f70;
+
+    font-weight:400;
+}
+
+.script{
+    font-family:
+        "Brush Script MT",
+        "Segoe Script",
+        cursive;
+
+    font-size:clamp(55px,10vw,105px);
+
+    color:#142f70;
+
+    line-height:.85;
+
+    text-shadow:
+        3px 3px 0 #b4c1dc;
+}
+
+.subtitle{
+    max-width:560px;
+
+    margin-top:20px;
+
+    color:#6c6d7a;
+
+    font-size:15px;
+
+    line-height:1.7;
+}
+
+/* =========================
+   NAV BUTTONS
+========================= */
+
+.next-btn,
+.prev-btn{
+    position:absolute;
+
+    bottom:14px;
+
+    z-index:100;
+
+    cursor:pointer;
+
+    border-radius:30px;
+
+    font-size:10px;
+
+    font-weight:bold;
+
+    letter-spacing:1px;
+}
+
+.next-btn{
+    right:14px;
+
+    border:none;
+
+    background:#173a7a;
+
+    color:white;
+
+    padding:12px 18px;
+}
+
+.prev-btn{
+    left:14px;
+
+    border:1px solid #bbb;
+
+    background:rgba(255,255,255,.9);
+
+    color:#173a7a;
+
+    padding:11px 16px;
+}
+
+.next-btn:active,
+.prev-btn:active{
+    transform:scale(.95);
+}
+
+.next-btn.locked{
+    opacity:.4;
+    cursor:not-allowed;
+}
+
+/* =========================
+   PAGE NUMBER
+========================= */
+
+.page-number{
+    position:absolute;
+
+    left:50%;
+    bottom:20px;
+
+    transform:translateX(-50%);
+
+    font-size:9px;
+
+    letter-spacing:3px;
+
+    color:#aaa;
+
+    z-index:90;
+}
+
+/* =========================
+   COUNTDOWN
+========================= */
+
+.countdown{
+    display:grid;
+
+    grid-template-columns:
+        repeat(4,1fr);
+
+    gap:8px;
+
+    width:min(430px,100%);
+
+    margin-top:25px;
+}
+
+.time-box{
+    padding:13px 5px;
+
+    background:#fff7f6;
+
+    border:1px solid #f0d7d3;
+
+    border-radius:12px;
+}
+
+.time-number{
+    display:block;
+
+    font-size:25px;
+
+    font-weight:bold;
+
+    color:#173a7a;
+}
+
+.time-label{
+    display:block;
+
+    margin-top:4px;
+
+    font-size:8px;
+
+    letter-spacing:1px;
+
+    color:#999;
+}
+
+/* =========================
+   TIME TOGETHER
+========================= */
+
+.together{
+    margin-top:22px;
+
+    padding:15px 20px;
+
+    background:#fff8f7;
+
+    border:1px solid #f1d9d4;
+
+    border-radius:15px;
+
+    max-width:430px;
+}
+
+.together-title{
+    font-size:9px;
+
+    letter-spacing:2px;
+
+    color:#8b8290;
+
+    text-transform:uppercase;
+}
+
+.together-number{
+    margin-top:7px;
+
+    font-size:18px;
+
+    font-weight:bold;
+
+    color:#173a7a;
+}
+
+/* =========================
+   CAKE
+========================= */
+
+.cake{
+    position:relative;
+
+    width:220px;
+    height:210px;
+
+    margin:8px 0 10px;
+
+    transform:scale(.9);
+}
+
+.cake-bottom{
+    position:absolute;
+
+    left:25px;
+    bottom:0;
+
+    width:170px;
+    height:70px;
+
+    background:#e95d9b;
+
+    border-radius:
+        10px
+        10px
+        15px
+        15px;
+
+    box-shadow:
+        inset 0 10px 0 rgba(255,255,255,.25);
+}
+
+.cake-middle{
+    position:absolute;
+
+    left:40px;
+    bottom:60px;
+
+    width:140px;
+    height:62px;
+
+    background:#ef80ad;
+
+    border-radius:9px;
+}
+
+.cake-top{
+    position:absolute;
+
+    left:58px;
+    bottom:110px;
+
+    width:104px;
+    height:48px;
+
+    background:#fff;
+
+    border-radius:10px 10px 5px 5px;
+
+    box-shadow:
+        inset 0 -7px 0 #ffd8df;
+}
+
+.candle{
+    position:absolute;
+
+    left:104px;
+    bottom:151px;
+
+    width:13px;
+    height:48px;
+
+    background:
+        repeating-linear-gradient(
+            to bottom,
+            #f7c6d9 0,
+            #f7c6d9 8px,
+            #fff 8px,
+            #fff 14px
+        );
+
+    border-radius:3px;
+
+    z-index:5;
+}
+
+.flame{
+    position:absolute;
+
+    left:98px;
+    bottom:193px;
+
+    font-size:27px;
+
+    z-index:10;
+
+    transform-origin:center bottom;
+
+    animation:
+        candleFlame .55s infinite alternate;
+}
+
+@keyframes candleFlame{
+
+    from{
+        transform:
+            scale(.85)
+            rotate(-3deg);
+    }
+
+    to{
+        transform:
+            scale(1.15)
+            rotate(3deg);
+    }
+}
+
+.flame.off{
+    opacity:0;
+
+    transform:scale(.1);
+}
+
+/* =========================
+   GIFT
+========================= */
+
+.gift{
+    position:relative;
+
+    width:160px;
+    height:145px;
+
+    margin-bottom:20px;
+
+    cursor:pointer;
+
+    transition:
+        transform .3s ease;
+}
+
+.gift:hover{
+    transform:translateY(-6px);
+}
+
+.gift-box{
+    position:absolute;
+
+    left:18px;
+    bottom:0;
+
+    width:124px;
+    height:88px;
+
+    background:#7191d4;
+
+    border-radius:4px;
+}
+
+.gift-box:before{
+    content:"";
+
+    position:absolute;
+
+    left:50%;
+    transform:translateX(-50%);
+
+    width:22px;
+    height:100%;
+
+    background:#f4d8d2;
+}
+
+.gift-lid{
+    position:absolute;
+
+    left:8px;
+    top:25px;
+
+    width:144px;
+    height:29px;
+
+    background:#5f81ca;
+
+    z-index:2;
+
+    border-radius:4px;
+}
+
+.gift-lid:before{
+    content:"";
+
+    position:absolute;
+
+    left:50%;
+    transform:translateX(-50%);
+
+    width:22px;
+    height:29px;
+
+    background:#f4d8d2;
+}
+
+.bow{
+    position:absolute;
+
+    top:0;
+    left:50%;
+
+    transform:translateX(-50%);
+
+    width:70px;
+    height:38px;
+
+    z-index:5;
+}
+
+.bow:before,
+.bow:after{
+    content:"";
+
+    position:absolute;
+
+    width:40px;
+    height:28px;
+
+    background:#f3aaa2;
+
+    border-radius:50%;
+}
+
+.bow:before{
+    left:0;
+    transform:rotate(25deg);
+}
+
+.bow:after{
+    right:0;
+    transform:rotate(-25deg);
+}
+
+/* =========================
+   MEMORY GALLERY
+========================= */
+
+.gallery-wrapper{
+    width:100%;
+    max-width:680px;
+
+    overflow:hidden;
+
+    margin-top:15px;
+}
+
+.gallery{
+    display:flex;
+
+    gap:14px;
+
+    overflow-x:auto;
+
+    overflow-y:hidden;
+
+    scroll-snap-type:x mandatory;
+
+    scroll-behavior:smooth;
+
+    -webkit-overflow-scrolling:touch;
+
+    scrollbar-width:none;
+
+    padding:
+        5px
+        5px
+        15px;
+}
+
+.gallery::-webkit-scrollbar{
+    display:none;
+}
+
+.memory{
+    position:relative;
+
+    flex:
+        0 0
+        calc(
+            50% - 7px
+        );
+
+    height:190px;
+
+    scroll-snap-align:center;
+
+    overflow:hidden;
+
+    border:6px solid white;
+
+    background:#eee;
+
+    box-shadow:
+        0 5px 18px rgba(70,60,70,.12);
+}
+
+.memory img{
+    width:100%;
+    height:100%;
+
+    object-fit:cover;
+
+    display:block;
+
+    transition:
+        transform .5s ease;
+}
+
+.memory:hover img{
+    transform:scale(1.05);
+}
+
+.caption{
+    position:absolute;
+
+    left:0;
+    right:0;
+    bottom:0;
+
+    padding:9px;
+
+    background:
+        linear-gradient(
+            transparent,
+            rgba(23,58,122,.85)
+        );
+
+    color:white;
+
+    font-size:10px;
+
+    padding-top:25px;
+}
+
+/* =========================
+   LETTER
+========================= */
+
+.letter{
+    width:min(620px,100%);
+
+    max-height:60vh;
+
+    overflow:auto;
+
+    padding:28px;
+
+    background:#fffdfc;
+
+    border:1px solid #ead6d2;
+
+    box-shadow:
+        0 10px 30px rgba(80,60,70,.08);
+
+    text-align:left;
+
+    scrollbar-width:none;
+}
+
+.letter::-webkit-scrollbar{
+    display:none;
+}
+
+.letter p{
+    font-family:
+        Georgia,
+        serif;
+
+    font-size:15px;
+
+    line-height:1.9;
+
+    color:#5f606b;
+
+    margin-bottom:15px;
+}
+
+.letter .hello{
+    font-size:23px;
+
+    color:#173a7a;
+}
+
+/* =========================
+   FINAL
+========================= */
+
+.final-heart{
+    font-size:60px;
+
+    animation:
+        heartBeat 1.3s infinite;
+}
+
+@keyframes heartBeat{
+
+    50%{
+        transform:scale(1.15);
+    }
+
+}
+
+.final-title{
+    margin-top:15px;
+
+    font-size:
+        clamp(38px,8vw,80px);
+
+    color:#173a7a;
+
+    line-height:1;
+}
+
+.final-title span{
+    font-family:
+        "Brush Script MT",
+        cursive;
+}
+
+/* =========================
+   BLAST PARTICLES
+========================= */
+
+.blast{
+    position:fixed;
+
+    left:50%;
+    top:50%;
+
+    width:10px;
+    height:10px;
+
+    border-radius:50%;
+
+    pointer-events:none;
+
+    z-index:9999;
+
+    animation:
+        blastParticle
+        1.5s
+        cubic-bezier(.1,.7,.2,1)
+        forwards;
+}
+
+@keyframes blastParticle{
+
+    from{
+        transform:
+            translate(-50%,-50%)
+            scale(0);
+
+        opacity:1;
+    }
+
+    to{
+        transform:
+            translate(
+                var(--x),
+                var(--y)
+            )
+            rotate(
+                var(--r)
+            )
+            scale(1);
+
+        opacity:0;
+    }
+}
+
+.gallery-wrapper{
+    width:100%;
+    max-width:680px;
+    overflow:hidden;
+    margin-top:15px;
+}
+
+.gallery{
+    display:flex;
+    gap:14px;
+
+    overflow-x:auto;
+    overflow-y:hidden;
+
+    scroll-snap-type:x mandatory;
+    scroll-behavior:smooth;
+
+    -webkit-overflow-scrolling:touch;
+
+    scrollbar-width:none;
+
+    padding:5px 5px 15px;
+}
+
+.gallery::-webkit-scrollbar{
+    display:none;
+}
+
+.memory{
+    position:relative;
+
+    flex:0 0 calc(50% - 7px);
+
+    height:190px;
+
+    scroll-snap-align:center;
+
+    overflow:hidden;
+
+    border:6px solid white;
+
+    background:#eee;
+
+    box-shadow:
+        0 5px 18px rgba(70,60,70,.12);
+}
+
+.memory img{
+    width:100%;
+    height:100%;
+
+    object-fit:cover;
+
+    display:block;
+
+    transition:transform .5s ease;
+}
+
+.caption{
+    position:absolute;
+
+    left:0;
+    right:0;
+    bottom:0;
+
+    padding:25px 9px 9px;
+
+    background:
+        linear-gradient(
+            transparent,
+            rgba(23,58,122,.85)
+        );
+
+    color:white;
+
+    font-size:10px;
+}
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media(max-width:600px){
+
+    .page{
+        padding:7px;
+    }
+
+    .card{
+        width:94vw;
+
+        height:82dvh;
+
+        min-height:0;
+
+        padding:
+            58px
+            14px
+            65px;
+    }
+
+    .bunting{
+        height:52px;
+    }
+
+    .flag{
+        width:25px;
+        height:34px;
+    }
+
+    .title{
+        font-size:clamp(
+            36px,
+            11vw,
+            58px
+        );
+    }
+
+    .script{
+        font-size:clamp(
+            52px,
+            16vw,
+            75px
+        );
+    }
+
+    .subtitle{
+        font-size:13px;
+
+        line-height:1.6;
+    }
+
+    .countdown{
+        gap:5px;
+
+        margin-top:20px;
+    }
+
+    .time-box{
+        padding:10px 3px;
+    }
+
+    .time-number{
+        font-size:19px;
+    }
+
+    .time-label{
+        font-size:7px;
+    }
+
+    .together{
+        margin-top:17px;
+
+        padding:12px 15px;
+    }
+
+    .together-number{
+        font-size:14px;
+    }
+
+    .cake{
+        transform:scale(.75);
+
+        margin-top:-5px;
+        margin-bottom:-15px;
+    }
+
+    .gallery-wrapper{
+        width:100%;
+    }
+
+    .gallery{
+        gap:10px;
+
+        padding-left:3px;
+        padding-right:3px;
+    }
+
+    .memory{
+        flex:
+            0 0
+            82%;
+
+        height:155px;
+    }
+
+    .caption{
+        font-size:9px;
+    }
+
+    .letter{
+        max-height:52vh;
+
+        padding:20px;
+    }
+
+    .letter p{
+        font-size:13px;
+
+        line-height:1.75;
+    }
+
+    .letter .hello{
+        font-size:20px;
+    }
+
+    .next-btn,
+    .prev-btn{
+        bottom:9px;
+    }
+
+    .page-number{
+        bottom:15px;
+    }
+
+} 
+
+@media(max-width:600px){
+
+    .memory{
+        flex:0 0 82%;
+        height:155px;
+    }
+
+    .gallery{
+        gap:10px;
+    }
+
+}
+
+/* =========================================================
+   SMALL MOBILE
+========================================================= */
+
+@media(max-width:380px){
+
+    .card{
+        height:83dvh;
+
+        padding:
+            52px
+            11px
+            62px;
+    }
+
+    .script{
+        font-size:53px;
+    }
+
+    .title{
+        font-size:35px;
+    }
+
+    .memory{
+        height:135px;
+    }
+
+    .together-number{
+        font-size:13px;
+    }
+
+}
+
+/* ===== MOBILE FIX ONLY: memory1 & memory3 ===== */
+@media (max-width: 600px) {
+
+    .memory-card img[src*="memory1.jpg"],
+    .memory-card img[src*="memory3.jpg"] {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        object-position: center center;
+        background: #f5f5f5;
+        display: block;
+    }
+
+    /* Touch animation */
+    .memory-card:has(img[src*="memory1.jpg"]),
+    .memory-card:has(img[src*="memory3.jpg"]) {
+        transition: transform 0.2s ease;
+        -webkit-tap-highlight-color: transparent;
+    }
+
+    .memory-card:has(img[src*="memory1.jpg"]).photo-touch,
+    .memory-card:has(img[src*="memory3.jpg"]).photo-touch {
+        transform: scale(0.94);
+    }
+
+    .memory-card:has(img[src*="memory1.jpg"]).photo-touch img,
+    .memory-card:has(img[src*="memory3.jpg"]).photo-touch img {
+        transform: scale(1.03);
+    }
+
+    .memory-card:has(img[src*="memory1.jpg"]) img,
+    .memory-card:has(img[src*="memory3.jpg"]) img {
+        transition: transform 0.25s ease;
+    }
+}
+
+/* =========================================
+   MOBILE PHOTO TOUCH REVEAL ANIMATION
+   ALL MEMORY PHOTOS
+========================================= */
+
+@media (max-width: 600px) {
+
+    .mobile-photo-viewer {
+        position: fixed;
+        inset: 0;
+        z-index: 99999;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        padding: 15px;
+
+        background: rgba(0, 0, 0, 0.88);
+
+        opacity: 0;
+        visibility: hidden;
+
+        transition:
+            opacity 0.25s ease,
+            visibility 0.25s ease;
+    }
+
+    .mobile-photo-viewer.active {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    .mobile-photo-viewer img {
+        max-width: 95vw;
+        max-height: 90vh;
+
+        width: auto;
+        height: auto;
+
+        object-fit: contain;
+
+        border-radius: 12px;
+
+        transform: scale(0.55);
+
+        transition:
+            transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+    }
+
+    .mobile-photo-viewer.active img {
+        transform: scale(1);
+    }
+}
+</style>
+</head>
+
+
+<body>
+
+
+<div class="book" id="book">
+
+
+<!-- =======================================================
+     PAGE 1 — WELCOME
+======================================================= -->
+
+<section class="page active">
+
+<div class="page-bg"></div>
+
+<div class="bunting">
+    <span class="flag"></span>
+    <span class="flag"></span>
+    <span class="flag"></span>
+    <span class="flag"></span>
+    <span class="flag"></span>
+    <span class="flag"></span>
+    <span class="flag"></span>
+</div>
+
+<div class="confetti-bg">
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+</div>
+
+
+<div class="card">
+
+    <div class="card-ribbon one"></div>
+    <div class="card-ribbon two"></div>
+
+
+    <div class="small-title">
+        10 · 09 · 2026
+    </div>
+
+
+    <div class="title">
+        Hey...
+    </div>
+
+
+    <div class="script">
+        I made
+    </div>
+
+
+    <div class="title">
+        something special
+    </div>
+
+
+    <p class="subtitle">
+        Just for you. ✨
+    </p>
+
+</div>
+
+
+<div class="page-number">
+    01 / 08
+</div>
+
+
+<button
+    class="next-btn"
+    onclick="nextPage()">
+
+    NEXT →
+
+</button>
+
+</section>
+
+
+
+<!-- =======================================================
+     PAGE 2 — COUNTDOWN
+======================================================= -->
+
+<section class="page">
+
+<div class="page-bg"></div>
+
+<div class="bunting">
+    <span class="flag"></span>
+    <span class="flag"></span>
+    <span class="flag"></span>
+    <span class="flag"></span>
+    <span class="flag"></span>
+</div>
+
+
+<div class="card">
+
+    <div class="card-ribbon one"></div>
+    <div class="card-ribbon two"></div>
+
+
+    <div class="small-title">
+        The countdown begins
+    </div>
+
+
+    <div class="title"
+         style="font-size:clamp(34px,7vw,65px);">
+
+        Something special
+
+    </div>
+
+
+    <p class="subtitle">
+        is coming...
+    </p>
+
+
+    <div class="countdown">
+
+        <div class="time-box">
+            <span
+                class="time-number"
+                id="days">
+                00
+            </span>
+
+            <span class="time-label">
+                DAYS
+            </span>
+        </div>
+
+
+        <div class="time-box">
+            <span
+                class="time-number"
+                id="hours">
+                00
+            </span>
+
+            <span class="time-label">
+                HOURS
+            </span>
+        </div>
+
+
+        <div class="time-box">
+            <span
+                class="time-number"
+                id="minutes">
+                00
+            </span>
+
+            <span class="time-label">
+                MINUTES
+            </span>
+        </div>
+
+
+        <div class="time-box">
+            <span
+                class="time-number"
+                id="seconds">
+                00
+            </span>
+
+            <span class="time-label">
+                SECONDS
+            </span>
+        </div>
+
+    </div>
+
+
+    <!-- TOTAL TIME TOGETHER -->
+
+    <div class="together">
+
+        <div class="together-title">
+            Total Time Together
+        </div>
+
+        <div
+            class="together-number"
+            id="togetherTime">
+
+            Loading...
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<button
+    class="prev-btn"
+    onclick="prevPage()">
+
+    ← BACK
+
+</button>
+
+
+<div class="page-number">
+    02 / 08
+</div>
+
+
+<button
+    class="next-btn"
+    onclick="nextPage()">
+
+    NEXT →
+
+</button>
+
+</section>
+
+
+
+<!-- =======================================================
+     PAGE 3 — BIRTHDAY REVEAL
+======================================================= -->
+
+<section class="page">
+
+<div class="page-bg"></div>
+
+<div class="bunting">
+    <span class="flag"></span>
+    <span class="flag"></span>
+    <span class="flag"></span>
+    <span class="flag"></span>
+    <span class="flag"></span>
+    <span class="flag"></span>
+</div>
+
+
+<div class="card">
+
+    <div class="card-ribbon one"></div>
+    <div class="card-ribbon two"></div>
+
+
+    <div class="sparkle">
+        ✦
+    </div>
+
+
+    <div class="small-title">
+        Your special day
+    </div>
+
+
+    <div class="title">
+    HAPPY
+</div>
+
+<div class="script">
+    19th
+</div>
+
+<div
+    style="
+        margin-top:8px;
+        font-size:18px;
+        letter-spacing:2px;
+        color:#173a7a;
+        font-weight:bold;
+    ">
+
+    BIRTHDAY 🎂
+
+</div>
+
+<div
+    class="birthday-date"
+    style="margin-top:15px;">
+
+    🎖️ FUTURE ARMY OFFICER &#x1F1EE;&#x1F1F3;
+
+</div>
+
+<p class="subtitle">
+
+    Happy 19th Birthday to someone
+    who is meant for something great. 🇮🇳
+
+</p>
+
+
+    <!-- CHANGE NAME -->
+
+    <div
+        class="birthday-date">
+
+         BADSHAH 
+
+    </div>
+
+
+    <p class="subtitle">
+        May today bring you countless reasons
+        to smile. 🎉
+    </p>
+
+</div>
+
+
+<button
+    class="prev-btn"
+    onclick="prevPage()">
+
+    ← BACK
+
+</button>
+
+
+<div class="page-number">
+    03 / 08
+</div>
+
+
+<button
+    class="next-btn"
+    onclick="nextPage()">
+
+    NEXT →
+
+</button>
+
+</section>
+
+
+
+
+
+
+
+<!-- =======================================================
+     PAGE 5 — GIFT
+======================================================= -->
+
+<section class="page">
+
+<div class="page-bg"></div>
+
+<div class="bunting">
+    <span class="flag"></span>
+    <span class="flag"></span>
+    <span class="flag"></span>
+    <span class="flag"></span>
+    <span class="flag"></span>
+</div>
+
+
+<div class="card">
+
+    <div class="card-ribbon one"></div>
+    <div class="card-ribbon two"></div>
+
+
+    <div class="small-title">
+        One little gift
+    </div>
+
+
+    <div
+        class="gift"
+        onclick="openGift()">
+
+        <div class="bow"></div>
+
+        <div class="gift-lid"></div>
+
+        <div class="gift-box"></div>
+
+    </div>
+
+
+    <div
+        id="giftText">
+
+        <div class="title"
+             style="font-size:clamp(34px,7vw,60px);">
+
+            A Gift For You
+
+        </div>
+
+
+        <p class="subtitle">
+            Tap the gift to open it. 🎁
+        </p>
+
+    </div>
+
+
+    <div
+        id="giftMessage"
+        style="
+        display:none;
+        max-width:520px;
+        ">
+
+        <div
+            class="script"
+            style="font-size:55px;">
+
+            For You ❤️
+
+        </div>
+
+
+        <p class="subtitle">
+
+            Because some people deserve
+            a little extra happiness today.
+
+        </p>
+
+    </div>
+
+</div>
+
+
+<button
+    class="prev-btn"
+    onclick="prevPage()">
+
+    ← BACK
+
+</button>
+
+
+<div class="page-number">
+    05 / 08
+</div>
+
+
+<button
+    class="next-btn"
+    onclick="nextPage()">
+
+    NEXT →
+
+</button>
+
+</section>
+
+
+
+<!-- =======================================================
+     PAGE 6 — MEMORIES
+======================================================= -->
+
+<section class="page">
+
+    <div class="page-bg"></div>
+
+    <div class="bunting">
+        <span class="flag"></span>
+        <span class="flag"></span>
+        <span class="flag"></span>
+        <span class="flag"></span>
+        <span class="flag"></span>
+    </div>
+
+
+    <div class="card">
+
+        <div class="card-ribbon one"></div>
+        <div class="card-ribbon two"></div>
+
+
+        <div class="small-title">
+            Memories
+        </div>
+
+
+        <div
+            class="title"
+            style="font-size:clamp(35px,7vw,60px);">
+
+            Little Moments
+
+        </div>
+
+
+        <!-- =========================
+             MEMORY GALLERY
+        ========================== -->
+
+        <div
+            class="gallery-wrapper">
+
+            <div
+                class="gallery"
+                id="memoryGallery">
+
+
+                <!-- PHOTO 1 -->
+                <div class="memory">
+
+                    <img
+                        src="images/memory1.jpg"
+                        alt="Memory 1">
+
+                    <div class="caption">
+                        A beautiful moment ✨
+                    </div>
+
+                </div>
+
+
+                <!-- PHOTO 2 -->
+                <div class="memory">
+
+                    <img
+                        src="images/memory2.jpg"
+                        alt="Memory 2">
+
+                    <div class="caption">
+                        A day to remember 🎈
+                    </div>
+
+                </div>
+
+
+                <!-- PHOTO 3 -->
+                <div class="memory">
+
+                    <img
+                        src="images/memory3.jpg"
+                        alt="Memory 3">
+
+                    <div class="caption">
+                        Keep smiling ❤️
+                    </div>
+
+                </div>
+
+
+                <!-- PHOTO 4 -->
+                <div class="memory">
+
+                    <img
+                        src="images/memory4.jpg"
+                        alt="Memory 4">
+
+                    <div class="caption">
+                        One more memory ✨
+                    </div>
+
+                </div>
+
+
+                <!-- PHOTO 5 -->
+                <div class="memory">
+
+                    <img
+                        src="images/memory5.jpg"
+                        alt="Memory 5">
+
+                    <div class="caption">
+                        A moment worth keeping 💙
+                    </div>
+
+                </div>
+
+
+                <!-- PHOTO 6 -->
+                <div class="memory">
+
+                    <img
+                        src="images/memory6.jpg"
+                        alt="Memory 6">
+
+                    <div class="caption">
+                        Another beautiful day 🌸
+                    </div>
+
+                </div>
+
+
+                <!-- PHOTO 7 -->
+                <div class="memory">
+
+                    <img
+                        src="images/memory7.jpg"
+                        alt="Memory 7">
+
+                    <div class="caption">
+                        Just another little memory ✨
+                    </div>
+
+                </div>
+
+
+                <!-- PHOTO 8 -->
+                <div class="memory">
+
+                    <img
+                        src="images/memory8.jpg"
+                        alt="Memory 8">
+
+                    <div class="caption">
+                        Moments like these ❤️
+                    </div>
+
+                </div>
+
+
+                <!-- PHOTO 9 -->
+                <div class="memory">
+
+                    <img
+                        src="images/memory9.jpg"
+                        alt="Memory 9">
+
+                    <div class="caption">
+                        Never forget this one 🫶
+                    </div>
+
+                </div>
+
+
+                <!-- PHOTO 10 -->
+                <div class="memory">
+
+                    <img
+                        src="images/memory10.jpg"
+                        alt="Memory 10">
+
+                    <div class="caption">
+                        And many more to come ❤️
+                    </div>
+
+                </div>
+
+
+            </div>
+
+        </div>
+
+
+        <p class="subtitle">
+
+            Ten little moments,
+            countless memories. 📸
+
+        </p>
+
+    </div>
+
+
+    <button
+        class="prev-btn"
+        onclick="prevPage()">
+
+        ← BACK
+
+    </button>
+
+
+    <div class="page-number">
+
+        06 / 08
+
+    </div>
+
+
+    <button
+        class="next-btn"
+        onclick="nextPage()">
+
+        NEXT →
+
+    </button>
+
+
+</section>
+
+
+
+<!-- =======================================================
+     PAGE 7 — LETTER
+======================================================= -->
+
+<section class="page">
+
+<div class="page-bg"></div>
+
+<div class="bunting">
+    <span class="flag"></span>
+    <span class="flag"></span>
+    <span class="flag"></span>
+    <span class="flag"></span>
+    <span class="flag"></span>
+</div>
+
+
+<div class="card">
+
+    <div class="card-ribbon one"></div>
+    <div class="card-ribbon two"></div>
+
+
+    <div class="small-title">
+        A letter
+    </div>
+
+
+    <div class="letter">
+
+        <p class="hello">
+            Dear BADSHAH,
+        </p>
+
+
+        <p>
+
+            Today isn't just another date on
+            the calendar. It's a reminder of
+            how special one particular person is.
+
+        </p>
+
+
+        <p>
+
+            I hope life gives you plenty of
+            beautiful moments, genuine smiles,
+            good people and reasons to be proud
+            of yourself.
+
+        </p>
+
+
+        <p>
+
+            Whatever this new year brings,
+            I hope you always remember that
+            you deserve happiness.
+
+        </p>
+
+
+        <p>
+
+            Keep being the wonderful person
+            you are. Keep smiling. Keep dreaming.
+
+        </p>
+
+
+        <div class="signature">
+            With warm wishes ❤️
+        </div>
+
+    </div>
+
+</div>
+
+
+<button
+    class="prev-btn"
+    onclick="prevPage()">
+
+    ← BACK
+
+</button>
+
+
+<div class="page-number">
+    07 / 08
+</div>
+
+
+<button
+    class="next-btn"
+    onclick="nextPage()">
+
+    NEXT →
+
+</button>
+
+</section>
+
+
+
+<!-- =======================================================
+     PAGE 8 — FINAL
+======================================================= -->
+
+<section class="page">
+
+<div class="page-bg"></div>
+
+<div class="bunting">
+    <span class="flag"></span>
+    <span class="flag"></span>
+    <span class="flag"></span>
+    <span class="flag"></span>
+    <span class="flag"></span>
+    <span class="flag"></span>
+</div>
+
+
+<div class="card">
+
+    <div class="card-ribbon one"></div>
+    <div class="card-ribbon two"></div>
+
+
+    <div class="final-heart">
+        ❤️
+    </div>
+
+
+    <div class="small-title">
+        One last thing
+    </div>
+
+
+    <div class="final-title">
+
+        May your smile<br>
+        always stay
+
+        <span>
+            beautiful.
+        </span>
+
+    </div>
+
+
+    <p class="final-text">
+
+        May this new year of your life
+        bring you more happiness,
+        more beautiful memories,
+        and many more reasons to smile.
+
+    </p>
+
+
+    <div
+        class="script"
+        style="
+        margin-top:25px;
+        font-size:55px;
+        ">
+
+        Happy Birthday!
+
+    </div>
+
+
+    <p
+        style="
+        margin-top:15px;
+        color:#1c09e4;
+        font-size:11px;
+        letter-spacing:2px;
+        ">
+
+        10 · 09 · 2026
+
+    </p>
+
+</div>
+
+
+<button
+    class="prev-btn"
+    onclick="prevPage()">
+
+    ← BACK
+
+</button>
+
+
+<div class="page-number">
+    08 / 08
+</div>
+
+</section>
+
+
+</div>
+
+
+
+<script>
+
+/* =========================================================
+   PAGE NAVIGATION
+========================================================= */
+
+const pages =
+    document.querySelectorAll(".page");
+
+let currentPage = 0;
+
+
+function showPage(index){
+
+    if(index < 0)
+        index = 0;
+
+    if(index >= pages.length)
+        index = pages.length - 1;
+
+
+    pages.forEach((page,i)=>{
+
+        page.classList.remove(
+            "active",
+            "prev"
+        );
+
+
+        if(i < index){
+
+            page.classList.add("prev");
+
+        }
+
+
+        if(i === index){
+
+            page.classList.add("active");
+
+        }
+
+    });
+
+
+    currentPage = index;
+
+}
+
+
+function nextPage(){
+
+    if(
+        currentPage <
+        pages.length - 1
+    ){
+
+        showPage(
+            currentPage + 1
+        );
+
+    }
+}
+
+function showLockedMessage(){
+
+    const button =
+        document.querySelector(
+            ".page.active .next-btn"
+        );
+
+
+    if(!button)
+        return;
+
+
+    const originalText =
+        button.textContent;
+
+
+    button.textContent =
+        "🔒 WAIT FOR 12 AM";
+
+
+    button.classList.add(
+        "locked"
+    );
+
+
+    setTimeout(()=>{
+
+        button.textContent =
+            originalText;
+
+        button.classList.remove(
+            "locked"
+        );
+
+    },1800);
+
+}
+
+
+function prevPage(){
+
+    if(currentPage > 0){
+
+        showPage(
+            currentPage - 1
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   KEYBOARD NAVIGATION
+========================================================= */
+
+document.addEventListener(
+    "keydown",
+    function(e){
+
+        if(e.key === "ArrowRight"){
+
+            nextPage();
+
+        }
+
+        if(e.key === "ArrowLeft"){
+
+            prevPage();
+
+        }
+
+    }
+);
+
+
+/* =========================================================
+   SWIPE NAVIGATION
+========================================================= */
+
+let touchStartX = 0;
+
+let touchEndX = 0;
+
+
+document.addEventListener(
+    "touchstart",
+    function(e){
+
+        touchStartX =
+            e.changedTouches[0].screenX;
+
+    },
+    {passive:true}
+);
+
+
+document.addEventListener(
+    "touchend",
+    function(e){
+
+        touchEndX =
+            e.changedTouches[0].screenX;
+
+        const distance =
+            touchEndX - touchStartX;
+
+
+        if(Math.abs(distance) < 60)
+            return;
+
+
+        if(distance < 0){
+
+            nextPage();
+
+        }else{
+
+            prevPage();
+
+        }
+
+    },
+    {passive:true}
+);
+
+
+/* =========================================================
+   BIRTHDAY CONFIGURATION
+========================================================= */
+
+/*
+   Birthday:
+   10 September 2026
+   12:00 AM IST
+   India Time = UTC +05:30
+*/
+
+const BIRTHDAY_TIME =
+    new Date(
+        "2026-09-10T00:00:00+05:30"
+    );
+
+let birthdayUnlocked = false;
+
+
+function updateCountdown(){
+
+    const now = new Date();
+
+    const difference =
+        BIRTHDAY_TIME.getTime() -
+        now.getTime();
+
+
+    /* =========================
+       BIRTHDAY ARRIVED
+    ========================= */
+
+    if(difference <= 0){
+
+        birthdayUnlocked = true;
+
+        document.getElementById("days")
+            .textContent = "00";
+
+        document.getElementById("hours")
+            .textContent = "00";
+
+        document.getElementById("minutes")
+            .textContent = "00";
+
+        document.getElementById("seconds")
+            .textContent = "00";
+
+        return;
+    }
+
+
+    const days =
+        Math.floor(
+            difference /
+            (1000 * 60 * 60 * 24)
+        );
+
+
+    const hours =
+        Math.floor(
+            difference /
+            (1000 * 60 * 60)
+        ) % 24;
+
+
+    const minutes =
+        Math.floor(
+            difference /
+            (1000 * 60)
+        ) % 60;
+
+
+    const seconds =
+        Math.floor(
+            difference /
+            1000
+        ) % 60;
+
+
+    document.getElementById("days")
+        .textContent =
+        String(days).padStart(2,"0");
+
+
+    document.getElementById("hours")
+        .textContent =
+        String(hours).padStart(2,"0");
+
+
+    document.getElementById("minutes")
+        .textContent =
+        String(minutes).padStart(2,"0");
+
+
+    document.getElementById("seconds")
+        .textContent =
+        String(seconds).padStart(2,"0");
+
+}
+
+
+setInterval(
+    updateCountdown,
+    1000
+);
+
+updateCountdown();
+
+
+/* =========================================================
+   TOTAL TIME TOGETHER
+========================================================= */
+
+/*
+   IMPORTANT:
+
+   এখানে START DATE পরিবর্তন করো।
+
+   Example:
+
+   "2024-01-15T18:30:00"
+
+   = 15 January 2024, 6:30 PM
+
+*/
+
+const togetherStart =
+    new Date(
+        "2024-07-01T00:00:00+05:30"
+    );
+
+
+function updateTogetherTime(){
+
+    const now =
+        new Date();
+
+
+    let difference =
+        now - togetherStart;
+
+
+    if(difference < 0){
+
+        difference = 0;
+
+    }
+
+
+    const totalSeconds =
+        Math.floor(
+            difference / 1000
+        );
+
+
+    const days =
+        Math.floor(
+            totalSeconds /
+            86400
+        );
+
+
+    const hours =
+        Math.floor(
+            (totalSeconds % 86400)
+            / 3600
+        );
+
+
+    const minutes =
+        Math.floor(
+            (totalSeconds % 3600)
+            / 60
+        );
+
+
+    const seconds =
+        totalSeconds % 60;
+
+
+    document.getElementById(
+        "togetherTime"
+    ).textContent =
+
+        days +
+        " days · " +
+
+        String(hours).padStart(2,"0") +
+        "h · " +
+
+        String(minutes).padStart(2,"0") +
+        "m · " +
+
+        String(seconds).padStart(2,"0") +
+        "s";
+
+}
+
+
+setInterval(
+    updateTogetherTime,
+    1000
+);
+
+updateTogetherTime();
+
+
+/* =========================================================
+   CAKE
+========================================================= */
+
+function makeWish(){
+
+    const flame =
+        document.getElementById(
+            "flame"
+        );
+
+
+    const button =
+        document.getElementById(
+            "wishButton"
+        );
+
+
+    const done =
+        document.getElementById(
+            "wishDone"
+        );
+
+
+    flame.classList.add("off");
+
+
+    button.style.display =
+        "none";
+
+
+    done.style.display =
+        "block";
+
+
+    createConfetti();
+
+}
+
+
+/* =========================================================
+   GIFT
+========================================================= */
+
+function openGift(){
+
+    const giftText =
+        document.getElementById(
+            "giftText"
+        );
+
+
+    const giftMessage =
+        document.getElementById(
+            "giftMessage"
+        );
+
+
+    giftText.style.display =
+        "none";
+
+
+    giftMessage.style.display =
+        "block";
+
+
+    createConfetti();
+
+}
+
+
+/* =========================================================
+   CONFETTI
+========================================================= */
+
+function createConfetti(){
+
+    const symbols = [
+        "✦",
+        "✧",
+        "•",
+        "★",
+        "♡"
+    ];
+
+
+    for(let i=0;i<55;i++){
+
+        const item =
+            document.createElement(
+                "span"
+            );
+
+
+        item.innerHTML =
+            symbols[
+                Math.floor(
+                    Math.random() *
+                    symbols.length
+                )
+            ];
+
+
+        item.style.position =
+            "fixed";
+
+
+        item.style.left =
+            "50%";
+
+
+        item.style.top =
+            "45%";
+
+
+        item.style.zIndex =
+            "999";
+
+
+        item.style.pointerEvents =
+            "none";
+
+
+        item.style.fontSize =
+            (
+                8 +
+                Math.random()*16
+            ) + "px";
+
+
+        item.style.color =
+            Math.random() > .5
+            ? "#173a7a"
+            : "#ef8fa0";
+
+
+        const x =
+            (
+                Math.random()-.5
+            ) * 700;
+
+
+        const y =
+            100 +
+            Math.random()*500;
+
+
+        const rotation =
+            Math.random()*720;
+
+
+        item.animate(
+
+            [
+
+                {
+                    transform:
+                        "translate(0,0) rotate(0)",
+                    opacity:1
+                },
+
+                {
+                    transform:
+                        `translate(${x}px,${y}px)
+                         rotate(${rotation}deg)`,
+                    opacity:0
+                }
+
+            ],
+
+            {
+
+                duration:
+                    1400 +
+                    Math.random()*900,
+
+                easing:
+                    "cubic-bezier(.2,.8,.3,1)"
+
+            }
+
+        );
+
+
+        document.body.appendChild(item);
+
+
+        setTimeout(
+            ()=>{
+                item.remove();
+            },
+            2400
+        );
+
+    }
+
+}
+
+const flag = "\uD83C\uDDEE\uD83C\uDDF3";
+
+/* ===== MOBILE TOUCH ANIMATION: memory1 & memory3 ONLY ===== */
+
+if (window.innerWidth <= 600) {
+
+    document.querySelectorAll(
+        '.memory-card:has(img[src*="memory1.jpg"]), ' +
+        '.memory-card:has(img[src*="memory3.jpg"])'
+    ).forEach(card => {
+
+        card.addEventListener("touchstart", () => {
+            card.classList.add("photo-touch");
+        }, { passive: true });
+
+        card.addEventListener("touchend", () => {
+            setTimeout(() => {
+                card.classList.remove("photo-touch");
+            }, 180);
+        }, { passive: true });
+
+        card.addEventListener("touchcancel", () => {
+            card.classList.remove("photo-touch");
+        }, { passive: true });
+
+    });
+
+}
+
+/* =========================================
+   MOBILE TOUCH = PHOTO REVEAL
+   ALL MEMORY PHOTOS
+========================================= */
+
+if (window.innerWidth <= 600) {
+
+    const viewer =
+        document.getElementById("mobilePhotoViewer");
+
+    const viewerImage =
+        document.getElementById("mobileViewerImage");
+
+
+    document.querySelectorAll(".memory-card").forEach(card => {
+
+        const image = card.querySelector("img");
+
+        if (!image) return;
+
+
+        /* FINGER TOUCH START */
+
+        card.addEventListener("touchstart", function () {
+
+            viewerImage.src = image.src;
+
+            viewer.classList.add("active");
+
+            document.body.style.overflow = "hidden";
+
+        }, { passive: true });
+
+
+        /* FINGER RELEASE */
+
+        card.addEventListener("touchend", function () {
+
+            viewer.classList.remove("active");
+
+            document.body.style.overflow = "";
+
+        }, { passive: true });
+
+
+        /* TOUCH CANCEL */
+
+        card.addEventListener("touchcancel", function () {
+
+            viewer.classList.remove("active");
+
+            document.body.style.overflow = "";
+
+        }, { passive: true });
+
+    });
+
+}
+
+</script>
+
+<!-- MOBILE PHOTO TOUCH VIEWER -->
+
+<div class="mobile-photo-viewer" id="mobilePhotoViewer">
+
+    <img
+        id="mobileViewerImage"
+        src=""
+        alt="Memory Photo">
+
+</div>
+</body>
+</html>
